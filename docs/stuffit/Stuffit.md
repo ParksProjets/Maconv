@@ -1,0 +1,3 @@
+# Stuffit specifications
+
+TODO.

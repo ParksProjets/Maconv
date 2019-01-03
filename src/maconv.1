@@ -1,0 +1,134 @@
+.TH MACONV 1 "2019-01-04" "v1.0" "maconv"
+
+.SH NAME
+maconv \- Macintosh format converter
+
+.SH SYNOPSIS
+.B "maconv c [options] input-file [output-file]"
+.br
+.B "maconv e [options] input-file [output-folder]"
+.br
+.B "maconv d [options] input-folder [output-file]"
+
+
+.SH DESCRIPTION
+\fBmaconv\fR(1) is a Linux software that can convert all kinds
+of old Macintosh formats, including MacBinary, Stuffit archives and HFS disk
+files.
+
+
+.SH OPTIONS
+Maconv has three sub-commands:
+.BR "c" ", " "e" " and " "d" .
+.br
+Each sub-command can take the following flags:
+
+.TP 4
+.B "-h,--help"
+Print an help message about \fBMaconv\fR and exit.
+
+.TP 4
+.B "-v,--verbose"
+Enable verbose mode (i.e. log useful information when converting/extracting
+files).
+
+.RE
+Some sub-commands take a format argument. This argument must be one of the
+following formats:
+.BR macbin ", " applesingle ", " rsrc " or " data " (saves only data fork)."
+
+
+.RE
+.B "FILE CONVERSION (maconv c)"
+.RS 4
+This sub-command converts a file from a format to another. Supported formats are
+listed above. The command takes the following arguments:
+
+.TP 4
+.B "input-file"
+The output format. If not provided this format is determined by the output
+filename extension. If both this format and the output filename are not provided
+the selected format is
+.BR rsrc .
+
+.TP 4
+.B "output-file"
+Name of the output file. This argument is optional. By default it's the name of
+the input file with another extension for a format that generates only one file
+or the "real" name of the file for other formats.
+
+.TP 4
+.BI "-f,--format" " format"
+The output format. If not provided this format is determined by the output
+filename extension. If both this format and the output filename are not provided
+the selected format is
+.BR rsrc .
+
+
+.RE
+.B "ARCHIVE EXTRACTION (maconv e)"
+.RS 4
+This sub-command extracts a Stuffit archive (version 1 or 5) or an HFS disk image.
+The command takes the following arguments:
+
+.TP 4
+.B "input-file"
+The input archive/disk image.
+
+.TP 4
+.B "output-folder"
+The folder in which the archive/disk image will be extracted. This argument is
+optional. By default the output folder is
+.BR . " (current folder)."
+
+.TP 4
+.BI "-f,--format" " format"
+Format with which extracted files will be saved. By default this format is
+.BR rsrc .
+
+
+.RE
+.B "DISK CREATION (maconv d)"
+.RS 4
+This sub-command creates an HFS disk image from a folder (like a file archiver).
+The command takes the following arguments:
+
+.TP 4
+.B "input-folder"
+The input folder. Files in this folder will be added to the HFS disk image.
+
+.TP 4
+.B "output-file"
+Name of the disk image to create. This argument is optional. By default the disk
+image has the same name as the input folder plus
+.IR .img .
+
+.TP 4
+.BI "-n,--name" " vol-name"
+Name of the volume to create on the disk image. By default it's the base name of
+the input folder.
+
+
+.SH EXAMPLES
+.TP 4
+.B maconv c file-macbin.bin
+Extract both data and ressource forks from 
+.I file-macbin.bin
+(MacBinary format) and save them using
+.BR rsrc " format."
+
+.TP 4
+.B maconv e -f macbin archive.sit
+Extract a stuffit archive named 
+.IR archive.sit .
+Extracted files are saved in
+.B macbin
+format.
+
+
+.SH SEE ALSO
+.BR unstuff "(1),"
+.BR macunpack "(1)"
+
+.SH AUTHOR
+Guillaume Gonnet <Guillaume.Gonnet@grenoble-inp.org>
