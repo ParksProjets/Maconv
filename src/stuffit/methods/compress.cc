@@ -38,9 +38,9 @@ void CompressLzw::Initialize(int max_symbols, int reserved_symbols)
 
     nodes = std::make_unique<CompressTreeNode[]>(max_symbols);
     for (int i = 0; i < 256; i++) {
-		nodes[i].chr = i;
-		nodes[i].parent = -1;
-	}
+        nodes[i].chr = i;
+        nodes[i].parent = -1;
+    }
 
     ClearTable();
 }
@@ -93,10 +93,10 @@ void CompressLzw::NextSymbol(int symbol)
 // Calculate the number of bytes needed to write the output.
 int CompressLzw::CalcOutputLength()
 {
-	int n = 0;
-	for (int symbol = prev_symbol; symbol >= 0; n++)
-		symbol = nodes[symbol].parent;
-	return n;
+    int n = 0;
+    for (int symbol = prev_symbol; symbol >= 0; n++)
+        symbol = nodes[symbol].parent;
+    return n;
 }
 
 
@@ -106,10 +106,10 @@ void CompressLzw::OutputToBuffer(int len, uint8_t *buffer)
     int symbol = prev_symbol;
     buffer += len;
 
-	while (symbol >= 0) {
-		*(--buffer) = nodes[symbol].chr;
-		symbol = nodes[symbol].parent;
-	}
+    while (symbol >= 0) {
+        *(--buffer) = nodes[symbol].chr;
+        symbol = nodes[symbol].parent;
+    }
 }
 
 

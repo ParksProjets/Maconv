@@ -70,7 +70,7 @@ set(MACONV_SRC
     "src/main.cc"
 )
 
-# Include "src" and "vendors" folder for resolving #include.
+# Include "src" and "vendors" folders for resolving #include.
 include_directories("src" "vendors")
 
 

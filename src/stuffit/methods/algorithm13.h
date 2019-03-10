@@ -60,10 +60,10 @@ struct Algorithm13Method : CompressionMethod {
     utils::BitReaderLE input;
 
     std::unique_ptr<uint8_t[]> window_buffer;
-	int match_length, match_offset;
+    int match_length, match_offset;
 
     HuffmanDecoder firstcode, secondcode, offsetcode;
-	HuffmanDecoder *currcode;
+    HuffmanDecoder *currcode;
 };
 
 

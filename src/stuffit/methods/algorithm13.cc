@@ -320,7 +320,7 @@ constexpr int kLzssEnd = -2;
 void Algorithm13Method::InitializeLZSS()
 {
     int val = *(input.data++);
-    int code = (val >> 4);
+    int code = ((val & 0xFF) >> 4);
 
     if (code == 0) {
         HuffmanDecoder metacode;

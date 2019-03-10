@@ -16,7 +16,7 @@ Data are arranged as follows:
 
 | **Offset** | **Length** | **Contents** |
 |:-----------|:-----------|:-------------|
-| 000        | Byte       | Always zero  |
+| 000        | Byte       | Always zero |
 | 001        | Byte       | Length of filename (in the range 1-31) |
 | 002        | 63 Bytes   | Filename (remaning bytes are zero) |
 | 065        | Word       | File type (4 characters) |
@@ -37,7 +37,7 @@ Data are arranged as follows:
 | 102 **³**  | Word       | Signature for indentification purposes (always `mBIN`) |
 | 106 **³**  | Byte       | Script of file name (from the fdScript field of an fxInfo record) |
 | 107 **³**  | Byte       | Extended Finder flags (from the fdXFlags field of an fxInfo record) |
-| 108-115    |            | Unused (must be zeroed by creators, must be ignored by readers) |
+| 108        | 8 Bytes    | Unused (must be zeroed by creators, must be ignored by readers) |
 | 116 **²**  | Word       | Length of total files when packed files are unpacked. As of the writing of this document, this field has never been used. |
 | 120 **²**  | Half       | Length of a secondary header. If this is non-zero, skip this many bytes (rounded up to the next multiple of 128). This is for future expansion only, when sending files with MacBinary, this word should be zero. |
 | 122 **²**  | Byte       | Version number of MacBinary (`129` for MacBinary II, `130` for MacBinary III) |
@@ -52,13 +52,13 @@ Cyclic redundancy check (CRC) used in header is CRC-16-CCITT, i.e. uses
 polynomial number `0x1021` and starts with `0`.
 
 
-## Data and ressource forks.
+## Data and ressource forks
 
-Data fork directly follow the header (at byte 128). The length of these data
+Data fork directly follows the header (at byte 128). The length of these data
 (which can be zero) must correspond with the length given in the header (at byte
 83).
 
-Data are completed with some padding bytes (normally `0x00` but some
+Data are completed with some padding bytes (usually `0x00` but some
 implementations use `0x7F`) until the total length of file is a multiple of 128.
 If the total length is already a multiple of 128 after adding the data fork, no
 padding is added.

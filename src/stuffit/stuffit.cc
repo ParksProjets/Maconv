@@ -26,6 +26,7 @@ this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <path.hpp>
 #include <cstdarg>
+#include <algorithm>
 
 namespace maconv {
 namespace stuffit {
@@ -61,6 +62,7 @@ static void ExtractFork(StuffitEntry &ent, bool is_res, fs::File &file,
         return (void)WarnForkError(ent, is_res, "compression method %u not supported", info.method);
 
     // Try extracting the fork.
+    LogDebug("  Extracting %s fork using algo %d", (is_res ? "ressource" : "data"), info.method);
     try {
         ptr->Extract(info, data, file.mem_pool);
     } catch (ExtractException &e) {
@@ -96,6 +98,7 @@ static void ExtractFile(fs::FileReader &reader, StuffitEntry &ent,
 
     // Log information to user.
     std::string filename = dest_folder + "/" + GetFilenameFor(ent.name, prefered_conv);
+    filename.erase(std::remove(filename.begin(), filename.end(), '\r'), filename.end());
     LogDebug("Extracting %s ...", filename.c_str());
 
     // Uncompress forks (if not empty).

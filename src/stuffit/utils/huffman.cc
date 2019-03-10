@@ -35,18 +35,18 @@ namespace stuffit {
 // Reverse a 32bits integer.
 static uint32_t Reverse32(uint32_t val)
 {
-	val = ((val >> 1) & 0x55555555) | ((val & 0x55555555) << 1);
-	val = ((val >> 2) & 0x33333333) | ((val & 0x33333333) << 2);
-	val = ((val >> 4) & 0x0F0F0F0F) | ((val & 0x0F0F0F0F) << 4);
-	val = ((val >> 8) & 0x00FF00FF) | ((val & 0x00FF00FF) << 8);
-	return (val >> 16) | (val << 16);
+    val = ((val >> 1) & 0x55555555) | ((val & 0x55555555) << 1);
+    val = ((val >> 2) & 0x33333333) | ((val & 0x33333333) << 2);
+    val = ((val >> 4) & 0x0F0F0F0F) | ((val & 0x0F0F0F0F) << 4);
+    val = ((val >> 8) & 0x00FF00FF) | ((val & 0x00FF00FF) << 8);
+    return (val >> 16) | (val << 16);
 }
 
 
 // Reverse a Nbits integer.
 static uint32_t ReverseN(uint32_t val, int length)
 {
-	return Reverse32(val) >> (32 - length);
+    return Reverse32(val) >> (32 - length);
 }
 
 
@@ -145,7 +145,7 @@ void HuffmanDecoder::AddValue(int value, uint32_t code, int length, int repeat_p
 
     if (!IsEmptyNode(last_node))
         throw ExtractException("Huffman: prefix already exists");
-	SetLeafValue(last_node, value);
+    SetLeafValue(last_node, value);
 }
 
 
@@ -171,28 +171,28 @@ int HuffmanDecoder::NextSymbol(utils::BitReader &input)
     if (!table)
         throw ExtractException("Huffman: search table not built");
 
-	int bits = input.ReadWord(table_size, false);
-	int length = table[bits].length;
-	int value = table[bits].value;
+    int bits = input.ReadWord(table_size, false);
+    int length = table[bits].length;
+    int value = table[bits].value;
 
-	if (length < 0)
+    if (length < 0)
         throw ExtractException("Huffman: invalid prefix code when getting next symbol [length]");
 
-	if (length <= table_size) {
+    if (length <= table_size) {
         input.SkipBits(length);
-		return value;
-	}
+        return value;
+    }
 
     input.SkipBits(table_size);
-	int node = value;
+    int node = value;
 
-	for (int bit; !IsLeafNode(node); node = Branch(node, bit)) {
-		bit = input.ReadBit();
-		if (IsOpenBranch(node, bit))
+    for (int bit; !IsLeafNode(node); node = Branch(node, bit)) {
+        bit = input.ReadBit();
+        if (IsOpenBranch(node, bit))
             throw ExtractException("Huffman: invalid prefix code when getting next symbol [code]");
-	}
+    }
 
-	return LeafValue(node);
+    return LeafValue(node);
 }
 
 
@@ -202,27 +202,27 @@ void HuffmanDecoder::MakeTableRecursLE(int node, HuffmanTableEntry *table,
     int depth)
 {
     int curr_table_size = (1 << (table_size - depth));
-	int curr_stride = (1 << depth);
+    int curr_stride = (1 << depth);
 
-	if (IsLeafNode(node)) {
-		for (int i = 0; i < curr_table_size; i++) {
-			table[i * curr_stride].length = depth;
-			table[i * curr_stride].value = LeafValue(node);
-		}
-	}
-	else if (IsInvalidNode(node)) {
-		for (int i = 0; i < curr_table_size; i++)
+    if (IsInvalidNode(node)) {
+        for (int i = 0; i < curr_table_size; i++)
             table[i * curr_stride].length = -1;
-	}
-	else {
-		if (depth == table_size) {
-			table[0].length = table_size + 1;
-			table[0].value = node;
-		} else {
-			MakeTableRecursLE(LeftBranch(node), table, depth + 1);
-			MakeTableRecursLE(RightBranch(node), table + curr_stride, depth + 1);
-		}
-	}
+    }
+    else if (IsLeafNode(node)) {
+        for (int i = 0; i < curr_table_size; i++) {
+            table[i * curr_stride].length = depth;
+            table[i * curr_stride].value = LeafValue(node);
+        }
+    }
+    else {
+        if (depth == table_size) {
+            table[0].length = table_size + 1;
+            table[0].value = node;
+        } else {
+            MakeTableRecursLE(LeftBranch(node), table, depth + 1);
+            MakeTableRecursLE(RightBranch(node), table + curr_stride, depth + 1);
+        }
+    }
 }
 
 
@@ -232,25 +232,25 @@ void HuffmanDecoder::MakeTableRecursBE(int node, HuffmanTableEntry *table,
 {
     int curr_table_size = (1 << (table_size - depth));
 
-	if (IsInvalidNode(node)) {
-		for (int i = 0; i < curr_table_size; i++)
+    if (IsInvalidNode(node)) {
+        for (int i = 0; i < curr_table_size; i++)
             table[i].length = -1;
-	}
-	else if (IsLeafNode(node)) {
-		for(int i = 0; i < curr_table_size; i++) {
-			table[i].length = depth;
-			table[i].value = LeafValue(node);
-		}
-	}
-	else {
-		if (depth == table_size) {
-			table[0].length = table_size + 1;
-			table[0].value = node;
-		} else {
-			MakeTableRecursBE(LeftBranch(node), table, depth + 1);
-			MakeTableRecursBE(RightBranch(node), table + curr_table_size/2, depth + 1);
-		}
-	}
+    }
+    else if (IsLeafNode(node)) {
+        for(int i = 0; i < curr_table_size; i++) {
+            table[i].length = depth;
+            table[i].value = LeafValue(node);
+        }
+    }
+    else {
+        if (depth == table_size) {
+            table[0].length = table_size + 1;
+            table[0].value = node;
+        } else {
+            MakeTableRecursBE(LeftBranch(node), table, depth + 1);
+            MakeTableRecursBE(RightBranch(node), table + curr_table_size/2, depth + 1);
+        }
+    }
 }
 
 
@@ -260,8 +260,8 @@ void HuffmanDecoder::MakeTable(bool is_LE)
     constexpr int kMaxTableSize = 10;
 
     if (max_length < min_length) table_size = kMaxTableSize;
-	else if (max_length >= kMaxTableSize) table_size = kMaxTableSize;
-	else table_size = max_length;
+    else if (max_length >= kMaxTableSize) table_size = kMaxTableSize;
+    else table_size = max_length;
 
     table = std::make_unique<HuffmanTableEntry[]>(1 << table_size);
 

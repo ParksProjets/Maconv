@@ -91,7 +91,7 @@ struct CompressMethod : CompressionMethod {
     bool block_mode;
 
     int symbol_counter;
-	int output_len;
+    int output_len;
 
     utils::BitReaderLE input;
     CompressLzw lzw;

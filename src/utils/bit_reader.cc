@@ -51,7 +51,7 @@ void BitReaderBE::FillBitCache()
     num_bits += (8 * num_bytes);
 
     for (int i = 0; i < num_bytes; i++)
-		bits = (bits << 8) | *(data++);
+        bits = (bits << 8) | *(data++);
 }
 
 
@@ -90,7 +90,7 @@ void BitReaderLE::FillBitCache()
     int num_bytes = std::min((32 - num_bits) / 8, (int)(end - data));
 
     for (int i = 0; i < num_bytes; i++, num_bits += 8)
-		bits |= *(data++) << num_bits;
+        bits |= *(data++) << num_bits;
 }
 
 

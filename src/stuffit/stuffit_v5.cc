@@ -3,6 +3,9 @@
 Extract files from Stuffit (v5) archives.
 See docs/stuffit/Stuffit_v5.md for more information on this format.
 
+The code in this file is based on TheUnarchiver.
+See README.md and docs/licenses/TheUnarchiver.txt for more information.
+
 Copyright (C) 2019, Guillaume Gonnet
 
 This program is free software: you can redistribute it and/or modify it under
@@ -30,6 +33,7 @@ namespace stuffit {
 
 // Stuffit (v5) entity flags.
 constexpr uint8_t kFlagDirectory = 0x40;
+constexpr uint8_t kFlagCrypted = 0x20;
 constexpr uint8_t kFlagHasRessource = 0x1;
 
 
@@ -85,7 +89,8 @@ static void ReadFileHeader(fs::FileReader &reader, StuffitEntry &ent)
     reader.Skip(1);
 
     // Read flags for knowing if entry is a file or a folder.
-    ent.etype = (reader.ReadByte() & kFlagDirectory) ? StuffitEntryType::Folder
+    int flags = reader.ReadByte();
+    ent.etype = (flags & kFlagDirectory) ? StuffitEntryType::Folder
         : StuffitEntryType::File;
 
     // Read creation and modification dates.
@@ -99,10 +104,10 @@ static void ReadFileHeader(fs::FileReader &reader, StuffitEntry &ent)
 
     // Read name and data lengths.
     uint16_t name_length = reader.ReadHalfBE();
-    reader.Skip(2);
+    reader.Skip(2);  // Skip header CRC.
     ent.data.size = reader.ReadWordBE();
     ent.data.comp_size = reader.ReadWordBE();
-    reader.Skip(4);
+    reader.Skip(4);  // Skip data CRC.
 
 
     // The entry is a folder: read the number of files.
@@ -120,7 +125,7 @@ static void ReadFileHeader(fs::FileReader &reader, StuffitEntry &ent)
     else {
         ent.num_files = 0;
         ent.data.method = reader.ReadByte();
-        reader.Skip(1);
+        reader.Skip(1);  // Skip password length (as archive is not encrypted).
     }
 
 
@@ -149,9 +154,9 @@ static void ReadFileHeader(fs::FileReader &reader, StuffitEntry &ent)
     if (has_res) {
         ent.res.size = reader.ReadWordBE();
         ent.res.comp_size = reader.ReadWordBE();
-        reader.Skip(4);
+        reader.Skip(4);  // Skip ressource CRC.
         ent.res.method = reader.ReadByte();
-        reader.Skip(1);
+        reader.Skip(1);  // Skip password length (as archive is not encrypted).
     } else {
         ent.res.size = 0;
         ent.res.comp_size = 0;
@@ -163,11 +168,11 @@ static void ReadFileHeader(fs::FileReader &reader, StuffitEntry &ent)
 
 
     // Set data and res offsets.
-    ent.data.offset = reader.Tell();
-    ent.res.offset = ent.data.offset + ent.data.comp_size;
+    ent.res.offset = reader.Tell();
+    ent.data.offset = ent.res.offset + ent.res.comp_size;
 
     // Seek to the next entry (if it's a file).
-    reader.Seek(ent.res.offset + ent.res.comp_size);
+    reader.Seek(ent.data.offset + ent.data.comp_size);
 }
 
 
