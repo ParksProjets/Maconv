@@ -20,6 +20,7 @@ this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <string>
 #include <memory>
 #include <vector>
 #include <time.h>
