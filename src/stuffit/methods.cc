@@ -68,7 +68,7 @@ void CompressionMethod::Extract(const StuffitCompInfo &info, uint8_t *data,
     total_size = 0;
 
     // Uncompress the data chunk by chunks.
-    for (uint32_t len = 0; true;) {
+    for (int32_t len = 0; true;) {
         len = ReadBytes(buffer.get() + total_size, capacity - total_size);
         if (len == -1)
             break;
