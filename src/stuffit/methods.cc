@@ -89,7 +89,7 @@ void CompressionMethod::Extract(const StuffitCompInfo &info, uint8_t *data,
 
 // Extract data from the compressed fork.
 void NoneMethod::Extract(const StuffitCompInfo &info, uint8_t *data,
-    std::vector<fs::DataPtr> &mem_pool)
+    std::vector<fs::DataPtr> &/* mem_pool */)
 {
     total_size = info.size ? info.size : info.comp_size;
     uncompressed = data + info.offset;

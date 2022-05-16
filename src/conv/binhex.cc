@@ -27,7 +27,7 @@ namespace conv {
 
 
 // Return true if a file is in BinHex format.
-bool IsFileBinHex(fs::FileReader &reader)
+bool IsFileBinHex(fs::FileReader &/* reader */)
 {
     // TODO.
 
@@ -37,7 +37,7 @@ bool IsFileBinHex(fs::FileReader &reader)
 
 
 // Read and decode a BinHex file.
-void ReadBinHex(fs::FileReader &reader, fs::File &file)
+void ReadBinHex(fs::FileReader &/* reader */, fs::File &/* file */)
 {
     // TODO.
 }
@@ -45,7 +45,7 @@ void ReadBinHex(fs::FileReader &reader, fs::File &file)
 
 
 // Write a BinHex file.
-void WriteBinHex(fs::File &file, fs::FileWriter &writer)
+void WriteBinHex(fs::File &/* file */, fs::FileWriter &/* writer */)
 {
     // TODO.
 }
