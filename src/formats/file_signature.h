@@ -57,8 +57,9 @@ struct SignToUnix {
 extern SignToMac signs_to_mac[];
 
 // File signature array.
+/*
 extern SignToUnix signs_to_unix[];
-
+*/
 
 
 // Get the MAC type (and creator) for a specific file.
