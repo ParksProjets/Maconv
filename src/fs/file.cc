@@ -71,11 +71,10 @@ int ReadLocalFile(const std::string &filename, fs::DataPtr &ptr)
 
 
 // Get file infotmation from a local file.
-void GetLocalInfo(const std::string &filename, fs::File &file, bool is_res)
+void GetLocalInfo(const std::string & /*filename */, fs::File &/* file */, bool /* is_res */)
 {
     // TODO.
 }
-
 
 
 // Set file infotmation to a local file.

@@ -47,7 +47,7 @@ struct CompressionMethod {
 
 
     // Read the next bytes.
-    virtual int32_t ReadBytes(uint8_t *data, uint32_t length) { return -1; }
+    virtual int32_t ReadBytes(uint8_t * /* data */, uint32_t /* length */) { return -1; }
 
     // Initialize the algorithm.
     virtual void Initialize() {}

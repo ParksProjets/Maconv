@@ -68,7 +68,7 @@ void CompressionMethod::Extract(const StuffitCompInfo &info, uint8_t *data,
     total_size = 0;
 
     // Uncompress the data chunk by chunks.
-    for (uint32_t len = 0; true;) {
+    for (int32_t len = 0; true;) {
         len = ReadBytes(buffer.get() + total_size, capacity - total_size);
         if (len == -1)
             break;
@@ -89,7 +89,7 @@ void CompressionMethod::Extract(const StuffitCompInfo &info, uint8_t *data,
 
 // Extract data from the compressed fork.
 void NoneMethod::Extract(const StuffitCompInfo &info, uint8_t *data,
-    std::vector<fs::DataPtr> &mem_pool)
+    std::vector<fs::DataPtr> &/* mem_pool */)
 {
     total_size = info.size ? info.size : info.comp_size;
     uncompressed = data + info.offset;

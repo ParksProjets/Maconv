@@ -7,6 +7,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(maconv)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 
 # Compile vendor libraries.
 add_subdirectory("vendors/libhfs")

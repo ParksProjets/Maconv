@@ -38,7 +38,7 @@ static void ExtractFork(hfsfile *hfile, const hfsdirent &ent, fs::File &file,
     bool is_res)
 {
     // Allocate buffer.
-    int size = is_res ? ent.u.file.rsize : ent.u.file.dsize;
+    long unsigned int size = is_res ? ent.u.file.rsize : ent.u.file.dsize;
     auto buffer = std::make_unique<uint8_t[]>(size);
 
     // Read the data.
