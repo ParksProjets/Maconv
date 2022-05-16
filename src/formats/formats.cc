@@ -34,7 +34,7 @@ namespace maconv {
 
 
 // Prefered conversion format.
-ConvData prefered_conv = { ConvData::NotFound };
+ConvData prefered_conv = { ConvData::NotFound, NULL };
 
 
 // All available converters.
@@ -69,7 +69,7 @@ ConvData GetConverter(const std::string &name)
             return ConvData { ConvData::Double, &format };
     }
 
-    return ConvData { ConvData::NotFound };
+    return ConvData { ConvData::NotFound, NULL };
 }
 
 
