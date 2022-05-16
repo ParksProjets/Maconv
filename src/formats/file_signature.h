@@ -33,13 +33,13 @@ struct SignToMac {
     // Maching type: extension or file command.
     enum Type { Extension, FileCmd } type;
 
-    // Help strings (and count)
-    int help_len;
-    const char **helps;
-
     // MAC creator and type.
     const char *creator;
     const char *mac;
+
+    // Help strings (and count)
+    int help_len;
+    const char **helps;
 
     constexpr SignToMac(Type t, const char *c, const char *m, const char **hs, int hl)
         : type{t}, creator{c}, mac{m}, help_len{hl}, helps{hs} {}

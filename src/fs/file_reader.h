@@ -71,10 +71,10 @@ struct FileReader {
 
     uint8_t *data; // Input data.
     uint32_t file_size; // Total size of the file.
+    std::string filename; // Name of the file to read.
 
     utils::RawDataStreamBuf stream_buf; // Stream buffer from raw data buffer.
     std::istream stream; // Stream for reading data.
-    std::string filename; // Name of the file to read.
 };
 
 
