@@ -7,7 +7,16 @@
 cmake_minimum_required(VERSION 3.2)
 project(maconv)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+add_compile_options(-Wall)
+add_compile_options(-Wextra)
+
+# Register keyword is gone in C++17 and above.  Okay
+# if we use c++std 14 and just ignore the warning.
+add_compile_options(-Wno-deprecated-register)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Compile vendor libraries.
 add_subdirectory("vendors/libhfs")
