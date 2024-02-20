@@ -1,1 +1,9 @@
 /build/
+vendors/libhfs/config.h
+*.a
+maconv
+
+Makefile
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake

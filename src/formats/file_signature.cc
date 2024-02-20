@@ -59,10 +59,11 @@ SignToMac signs_to_mac[] = {
 
 
 // File signature array.
+/*
 SignToUnix signs_to_unix[] = {
 
 };
-
+*/
 
 
 // Call Unix "file" command on a path.

@@ -71,7 +71,7 @@ auto RawDataStreamBuf::seekpos(pos_type pos, std::ios_base::openmode which)
     if (which & std::ios_base::in)
         setg(eback(), eback() + pos, egptr());
     if (which & std::ios_base::out)
-        pbump(pos - (pptr() - eback()));
+        pbump(pos - static_cast<pos_type>((pptr() - eback())));
 
     return pos;
 }
